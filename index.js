@@ -20,6 +20,20 @@ app.post('/', (req, res) => {
 		'chat_id': chat_id,
 		'text': req.body.message.text
 	});
+
+	needle('get', 'https://api.mcsrvstat.us/2/' + process.env.MC_SERVER_ADDRESS)
+		.then((response) => {
+			if(response.body.online == true) {
+				needle.post('https://api.telegram.org/bot' + process.env.BOT_TOKEN + '/sendMessage', {
+					'chat_id': chat_id,
+					'text': 'And by the way: Our minecraft server is online with ' +
+							response.body.players.online +
+							' of max. ' +
+							response.body.players.max +
+							' players.'
+				});
+			}
+		});
 });
 
 https.createServer({
