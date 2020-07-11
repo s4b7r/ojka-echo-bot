@@ -23,7 +23,7 @@ app.post('/', (req, res) => {
 });
 
 https.createServer({
-	key: fs.readFileSync('./ojka-echo-bot.key'),
-	cert: fs.readFileSync('./ojka-echo-bot.cert'),
+	key: fs.readFileSync(process.env.SSL_KEYFILE),
+	cert: fs.readFileSync(process.env.SSL_CERTFILE),
 	passphrase: process.env.KEY_PASSPHRASE
 }, app).listen(8443);
