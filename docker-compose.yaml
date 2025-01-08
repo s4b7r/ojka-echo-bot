@@ -1,14 +1,17 @@
 version: "3"
 services:
   node:
-    image: "node:10"
+    build:
+      dockerfile: src/Dockerfile
     user: "node"
-    working_dir: /home/node/app
     environment:
       - NODE_ENV=production
-    volumes:
-      - ./:/home/node/app
+      - BOT_TOKEN=${BOT_TOKEN}
+      - KEY_PASSPHRASE=${KEY_PASSPHRASE}
+      - PORT=${PORT}
+      - BOT_SERVER_URL=${BOT_SERVER_URL}
+      - SSL_CERT_BASE64=${SSL_CERT_BASE64}
+      - SSL_KEY_BASE64=${SSL_KEY_BASE64}
     ports:
       - "${PORT}:${PORT}"
-    command: "npm start"
     restart: always
