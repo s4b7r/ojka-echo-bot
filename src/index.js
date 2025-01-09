@@ -1,4 +1,5 @@
 var express = require('express');
+var http = require('http');
 var https = require('https');
 var needle = require('needle');
 var fs = require('fs');
@@ -66,13 +67,23 @@ needle('post', telegram_bot_endpoint + '/setWebhook', {
 		console.log('Last Telegram webhook unset.');
 		console.log('Last Telegram webhook unset: Response:', res.body);
 
-		needle('post', telegram_bot_endpoint + '/setWebhook', { 
-			url: process.env.BOT_SERVER_URL, 
-			certificate: {
-				file: CERT_FILE,
-				content_type: 'application/x-pem-file'
-			} 
-		}, { multipart: true })
+		var webhook_options = {};
+		
+		if (KEY_BASE64 != ''){
+			webhook_options = { 
+				url: process.env.BOT_SERVER_URL, 
+				certificate: {
+					file: CERT_FILE,
+					content_type: 'application/x-pem-file'
+				} 
+			};
+		}else{
+			webhook_options = { 
+				url: process.env.BOT_SERVER_URL,  
+			};
+		}
+
+		needle('post', telegram_bot_endpoint + '/setWebhook', webhook_options, { multipart: true })
 		.catch((err) =>{
 			console.error('Error:', err);
 		  })
@@ -84,14 +95,19 @@ needle('post', telegram_bot_endpoint + '/setWebhook', {
 	});
 
 
-
-
-console.log('Starting the server now.')
-
-https.createServer({
+var server;
+if (KEY_BASE64 != ''){
+	console.log('Using https');
+	server = https.createServer({
 	key: fs.readFileSync(KEY_FILE),
 	cert: fs.readFileSync(CERT_FILE),
 	passphrase: process.env.KEY_PASSPHRASE
-}, app).listen(PORT, HOST);
+}, app);
+}else{
+	console.log('Using http');
+	server = http.createServer(app);
+}
 
+console.log('Starting the server now.')
+server.listen(PORT, HOST);
 console.log(`Running on http://${HOST}:${PORT}`);
