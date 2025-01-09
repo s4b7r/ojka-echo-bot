@@ -12,6 +12,9 @@ const KEY_FILE = 'cert.key';
 
 const telegram_bot_endpoint = 'https://api.telegram.org/bot' + process.env.BOT_TOKEN;
 
+const PORT = process.env.PORT || 8080;
+const HOST = '0.0.0.0';
+
 /**
  * @example
  * 	GET: https://<SERVER_ADDRESS>:8443/?msg=hello%20world
@@ -89,4 +92,6 @@ https.createServer({
 	key: fs.readFileSync(KEY_FILE),
 	cert: fs.readFileSync(CERT_FILE),
 	passphrase: process.env.KEY_PASSPHRASE
-}, app).listen(process.env.BOT_PORT);
+}, app).listen(PORT, HOST);
+
+console.log(`Running on http://${HOST}:${PORT}`);
