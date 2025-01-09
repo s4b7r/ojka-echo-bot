@@ -12,7 +12,7 @@ const KEY_FILE = 'cert.key';
 
 const telegram_bot_endpoint = 'https://api.telegram.org/bot' + process.env.BOT_TOKEN;
 
-const PORT = process.env.PORT || 8080;
+const PORT = process.env.PORT || 8443;
 const HOST = '0.0.0.0';
 
 /**
