@@ -69,7 +69,7 @@ jobs:
         with:
           images: ${{ env.REGISTRY }}/${{ env.IMAGE_NAME }}
           labels: |
-            description=""
+            description="A Telegram echo bot"
             org.opencontainers.image.source="https://github.com/s4b7r/ojka-echo-bot"
             org.opencontainers.image.description="A Telegram echo bot"
             org.opencontainers.image.licenses="GPL-3.0-only"
