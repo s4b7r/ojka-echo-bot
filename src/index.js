@@ -29,17 +29,28 @@ app.post('/', (req, res) => {
 
 
 // Decode the Base64 string
-const decodedCertData = Buffer.from(process.env.SSL_CERT_BASE64, 'base64').toString('utf-8');
+const CERT_PART1 = process.env.SSL_CERT_BASE64 || ''; // Default to empty string if undefined
+const CERT_PART2 = process.env.SSL_CERT_BASE64_PART2 || '';
+const CERT_PART3 = process.env.SSL_CERT_BASE64_PART3 || '';
+console.log('SSL Cert Base64 Part 1: ' + CERT_PART1);
+console.log('SSL Cert Base64 Part 2: ' + CERT_PART2);
+console.log('SSL Cert Base64 Part 3: ' + CERT_PART3);
+const CERT_BASE64 = `${CERT_PART1}${CERT_PART2}${CERT_PART3}`;
+console.log('SSL Cert Base64: ' + CERT_BASE64);
+const decodedCertData = Buffer.from(CERT_BASE64, 'base64').toString('utf-8');
 // Write the decoded data to the file
 fs.writeFileSync(CERT_FILE, decodedCertData);
 console.log('Written cert data:' + decodedCertData);
 
 // Decode the Base64 string
-console.log('SSL Key Base64: ' + process.env.SSL_KEY_BASE64);
-const decodedKeyData = Buffer.from(process.env.SSL_KEY_BASE64, 'base64').toString('utf-8');
+const KEY_PART1 = process.env.SSL_KEY_BASE64 || ''; // Default to empty string if undefined
+const KEY_PART2 = process.env.SSL_KEY_BASE64_PART2 || '';
+const KEY_PART3 = process.env.SSL_KEY_BASE64_PART3 || '';
+const KEY_BASE64 = `${KEY_PART1}${KEY_PART2}${KEY_PART3}`;
+const decodedKeyData = Buffer.from(KEY_BASE64, 'base64').toString('utf-8');
 // Write the decoded data to the file
 fs.writeFileSync(KEY_FILE, decodedKeyData);
-console.log('Written key data:' + decodedKeyData);
+// console.log('Written key data:' + decodedKeyData);
 
 
 needle('post', telegram_bot_endpoint + '/setWebhook', {
