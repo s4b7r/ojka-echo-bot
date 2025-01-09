@@ -89,4 +89,4 @@ https.createServer({
 	key: fs.readFileSync(KEY_FILE),
 	cert: fs.readFileSync(CERT_FILE),
 	passphrase: process.env.KEY_PASSPHRASE
-}, app).listen(process.env.PORT);
+}, app).listen(process.env.BOT_PORT);

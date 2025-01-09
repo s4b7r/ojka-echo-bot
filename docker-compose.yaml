@@ -8,7 +8,7 @@ services:
       - NODE_ENV=production
       - BOT_TOKEN=${BOT_TOKEN}
       - KEY_PASSPHRASE=${KEY_PASSPHRASE}
-      - PORT=${PORT}
+      - BOT_PORT=${BOT_PORT}
       - BOT_SERVER_URL=${BOT_SERVER_URL}
       - SSL_CERT_BASE64=${SSL_CERT_BASE64}
       - SSL_CERT_BASE64_PART2=${SSL_CERT_BASE64_PART2}
