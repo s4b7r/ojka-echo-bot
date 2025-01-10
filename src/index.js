@@ -18,17 +18,17 @@ const HOST = '0.0.0.0';
 
 /**
  * @example
- * 	GET: https://<SERVER_ADDRESS>:8443/?msg=hello%20world
+ * POST: https://<SERVER_ADDRESS>:8443/?msg=hello%20world
  */
 app.post('/', (req, res) => {
-	console.log(req.body);
-	var chat_id = req.body.message.chat.id;
-	res.sendStatus(200);
+    console.log(req.body);
+    var chat_id = req.body.message.chat.id;
+    res.sendStatus(200);
 
-	needle.post(telegram_bot_endpoint + '/sendMessage', {
-		'chat_id': chat_id,
-		'text': req.body.message.text
-	});
+    needle.post(telegram_bot_endpoint + '/sendMessage', {
+        'chat_id': chat_id,
+        'text': req.body.message.text
+    });
 });
 
 
@@ -57,55 +57,58 @@ fs.writeFileSync(KEY_FILE, decodedKeyData);
 // console.log('Written key data:' + decodedKeyData);
 
 
-needle('post', telegram_bot_endpoint + '/setWebhook', {
-	url: ''
-})
+needle('post', telegram_bot_endpoint + '/setWebhook', 
+    {
+        url: ''
+    }
+)
 .catch(function(err) {
-		console.error('Error:', err);
-	})
+    console.error('Error:', err);
+})
 .then(function (res) {
-		console.log('Last Telegram webhook unset.');
-		console.log('Last Telegram webhook unset: Response:', res.body);
+    console.log('Last Telegram webhook unset.');
+    console.log('Last Telegram webhook unset: Response:', res.body);
 
-		var webhook_options = {};
-		
-		if (KEY_BASE64 != ''){
-			webhook_options = { 
-				url: process.env.BOT_SERVER_URL, 
-				certificate: {
-					file: CERT_FILE,
-					content_type: 'application/x-pem-file'
-				} 
-			};
-		}else{
-			webhook_options = { 
-				url: process.env.BOT_SERVER_URL,  
-			};
-		}
+    var webhook_options = {};
 
-		needle('post', telegram_bot_endpoint + '/setWebhook', webhook_options, { multipart: true })
-		.catch((err) =>{
-			console.error('Error:', err);
-		  })
-		  .then((res)=>{
-			console.log('Telegeram webhook was set.');
-			console.log('Telegram webhook set: Response:', res.body);
-		  
-		});
-	});
+    if (KEY_BASE64 != '') {
+        webhook_options = { 
+            url: process.env.BOT_SERVER_URL, 
+            certificate: {
+                file: CERT_FILE,
+                content_type: 'application/x-pem-file'
+            }
+        };
+    } else {
+        webhook_options = { 
+            url: process.env.BOT_SERVER_URL,  
+        };
+    }
+
+    needle('post', telegram_bot_endpoint + '/setWebhook', webhook_options, { multipart: true })
+    .catch((err) => {
+        console.error('Error:', err);
+    })
+    .then((res) => {
+        console.log('Telegeram webhook was set.');
+        console.log('Telegram webhook set: Response:', res.body);
+    });
+});
 
 
 var server;
-if (KEY_BASE64 != ''){
-	console.log('Using https');
-	server = https.createServer({
-	key: fs.readFileSync(KEY_FILE),
-	cert: fs.readFileSync(CERT_FILE),
-	passphrase: process.env.KEY_PASSPHRASE
-}, app);
-}else{
-	console.log('Using http');
-	server = http.createServer(app);
+if (KEY_BASE64 != '') {
+    console.log('Using https');
+    server = https.createServer({
+            key: fs.readFileSync(KEY_FILE),
+            cert: fs.readFileSync(CERT_FILE),
+            passphrase: process.env.KEY_PASSPHRASE
+        },
+        app
+    );
+} else {
+    console.log('Using http');
+    server = http.createServer(app);
 }
 
 console.log('Starting the server now.')
