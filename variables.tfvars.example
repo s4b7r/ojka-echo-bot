@@ -1,0 +1,6 @@
+scw_project_id = ""
+bot_token = ""
+container_namespace = ""
+container_name = ""
+bot_server_url = "https://your.example.org:443/"
+# bot_custom_domain = ""
