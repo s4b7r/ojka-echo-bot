@@ -1,0 +1,11 @@
+name: telegram
+channels:
+  - defaults
+dependencies:
+  - pip
+  - python
+  - anyio
+  - python-dotenv
+  - pytest
+  - pip:
+    - telethon

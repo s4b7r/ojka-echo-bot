@@ -62,3 +62,9 @@ If you have existing infrastructure, you can [import](https://developer.hashicor
 1. If you have multiple environments, make sure you have selected the correct Terraform workspace with `terraform workspace select WORKSPACE_NAME`.
 2. `terraform plan -var-file=FILENAME.tfvars` to see Terraform's plan.
 3. `terraform apply -var-file=FILENAME.tfvars` to apply the plan to your infrastructure.
+
+## Testing
+
+Setup your Python environment using the conda `environment.yml` or using the `requirements.txt`. For conda you can use `conda env create --file environment.yml` - it will create a new environment named `telegram`.
+
+For testing fill in `test/.env` from `test/.env.example`. You will get your Telegram App API ID and Hash from [https://my.telegram.org/apps](https://my.telegram.org/apps). Get your session string by executing `test/setup_get_session_string.py` manually. Get your bot's name from Telegram.
