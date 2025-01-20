@@ -107,8 +107,9 @@ jobs:
         with:
           account-type: personal
           token: ${{ secrets.GITHUB_TOKEN }}
-          cut-off: 1w
+          cut-off: "1w ago UTC"
           image-names: ${{ env.IMAGE_NAME }}
-          image-tags: "!master"
-          keep-n-most-recent: 5
+          skip-tags: master
+          keep-at-least: 5
+          token-type: github-token
           
