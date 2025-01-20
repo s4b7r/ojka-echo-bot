@@ -105,7 +105,7 @@ jobs:
       - name: Container Retention Policy
         uses: snok/container-retention-policy@v2.2.1
         with:
-          account-type: user
+          account-type: personal
           token: ${{ secrets.GITHUB_TOKEN }}
           cut-off: 1w
           image-names: ${{ env.IMAGE_NAME }}
