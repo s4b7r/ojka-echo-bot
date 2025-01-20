@@ -108,7 +108,7 @@ jobs:
           account-type: personal
           token: ${{ secrets.GITHUB_TOKEN }}
           cut-off: "7 days ago UTC"
-          image-names: ${{ env.IMAGE_NAME }}
+          image-names: ojka-echo-bot
           skip-tags: master
           keep-at-least: 5
           token-type: github-token
